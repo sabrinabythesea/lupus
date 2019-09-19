@@ -1,0 +1,656 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={Lupus Symptoms on Twitter},
+            pdfauthor={Sabrina Kent},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\providecommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{Lupus Symptoms on Twitter}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{Sabrina Kent}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+    \date{}
+    \predate{}\postdate{}
+  
+
+\begin{document}
+\maketitle
+
+\hypertarget{introduction}{%
+\subsection{Introduction}\label{introduction}}
+
+When studying immunology, I was intrigued by the way diseases like
+rheumatoid arthritis and lupus work. Lupus, in particular, is
+fascinating - not ony its mechanism of action, but all the factors
+leading to difficulty in diagnosing patients correctly. A simple google
+on lupus hits on the basics:
+
+\begin{itemize}
+\tightlist
+\item
+  It can take years for a patient to be diagnosed with lupus
+\item
+  Lupus can ``masquerade'' as other diseases and cause great frustration
+  (and worse)
+\item
+  A huge part of the issue is the wide variety - and therefore the
+  patient profile inconsistency - of symptoms
+\end{itemize}
+
+Digging deeper, I went to lupus.org and, from there, to their lupus
+message board. Searching for posts about patients exhibiting unusual
+symptoms led to something that floored me - according to many posts,
+lupus patients struggle with getting their doctors to acknowledge that
+their less typical symptoms are, indeed, related to lupus. However, many
+of these same posts had an astounding number of responses from other
+patients confirming that the ``atypical'' symptom being discussed was
+actually experienced by many members of the online lupus community.
+
+That seems like an important disconnection between what lupus patients
+experience and what established medical knowledge says lupus does to a
+patient.
+
+I'd like very much to collect data on patient-reported symptoms
+(specifically, symptoms that the patients feel are connected to their
+lupus diagnosis) and connect that with medical papers on lupus. However,
+data mining directly from a message board like the one I used to collect
+anecdotal evidence of an interesting problem would not be ethical.
+
+So I went to twitter with my favorite r package for this kind of work,
+rtweet. (Kearney MW (2019). rtweet: Collecting Twitter Data. R package
+version 0.6.9, \url{https://cran.r-project.org/package=rtweet}. )
+
+My official starting question is: is Twitter a good source for data on
+patient-reported lupus symptoms?
+
+The more specific question, of course is about patient-reported lupus
+symptoms that are not considered to be standard symptoms of lupus by the
+medical community, but I'm going to start by casting a wide net and
+doing an exploratory analysis.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(ggplot2)}
+\KeywordTok{library}\NormalTok{(tidyr)}
+\KeywordTok{library}\NormalTok{(rtweet)}
+\KeywordTok{library}\NormalTok{(stringr)}
+\KeywordTok{library}\NormalTok{(dplyr)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'dplyr'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+\end{verbatim}
+
+\#\#Collect data from twitter
+
+To download a data frame of tweets including ``lupus'' as a hashtag
+requires a few minutes work with rtweet. Because of twitter's terms of
+use, I won't be including the actual tweets I collected, but will be
+able to share the resulting statistical information.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{og_df <-}\StringTok{ }\KeywordTok{search_tweets}\NormalTok{(}
+  \StringTok{"#lupus"}\NormalTok{, }\DataTypeTok{n =} \DecValTok{18000}\NormalTok{, }\DataTypeTok{include_rts =} \OtherTok{FALSE}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{remove-unneeded-columns}{%
+\subsection{Remove unneeded columns}\label{remove-unneeded-columns}}
+
+Of the 90 variables downloaded automatically, only a few are potentially
+useful. At this point I want to keep information on the actual tweet and
+its hashtags, the account it came from, information on popularity - and
+if there is an URL attached to the tweet.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lupus_df <-}\StringTok{ }\KeywordTok{select}\NormalTok{(og_df, screen_name, text, favorite_count, hashtags, urls_expanded_url)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{remove-tweets-from-organizations-linking-to-articles}{%
+\subsection{Remove tweets from organizations linking to
+articles}\label{remove-tweets-from-organizations-linking-to-articles}}
+
+I kept the variable containing linked URLs, because many of the tweets I
+first downloaded seemed to be generated by organizations and served as
+advertisements back to articles on other websites about lupus. Those
+tweets are not relevant here, and removing them will clean up my data
+nicely.
+
+I want to keep tweets that don't have links in them.
+
+So I simply filtered my dataframe for only tweets for which the URL
+variable is ``NA,'' easily increasing the proportion of tweets from
+individuals rather than organizations and, particularly, removing tweets
+that don't discuss lupus directly.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{no_orgs <-}\StringTok{ }\KeywordTok{filter}\NormalTok{(lupus_df, }\KeywordTok{is.na}\NormalTok{(urls_expanded_url))}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{create-new-columns}{%
+\subsection{Create new columns}\label{create-new-columns}}
+
+I'm going to start my exploration by testing for the proportion of my
+tweets that contain interesting words:
+
+\begin{itemize}
+\item
+  ``fibromyalgia'' is another difficult-to-diagnose disease that is
+  often comorbid with lupus
+\item
+  ``flare'' is the term used by both patients and medical professionals
+  for times when disease activity increases and more symptoms are seen
+\item
+  ``symptom'' - is the magic word!
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{no_orgs <-}\StringTok{ }\NormalTok{no_orgs }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{contains_flare =} \KeywordTok{grepl}\NormalTok{(}\StringTok{"flare"}\NormalTok{, text, }\DataTypeTok{fixed =} \OtherTok{TRUE}\NormalTok{))}
+
+\NormalTok{no_orgs <-}\StringTok{ }\NormalTok{no_orgs }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{contains_fibro =} \KeywordTok{grepl}\NormalTok{(}\StringTok{"fibro"}\NormalTok{, text, }\DataTypeTok{fixed =} \OtherTok{TRUE}\NormalTok{))}
+
+\NormalTok{no_orgs <-}\StringTok{ }\NormalTok{no_orgs }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{contains_symptom =} \KeywordTok{grepl}\NormalTok{(}\StringTok{"symptom"}\NormalTok{, text, }\DataTypeTok{fixed =} \OtherTok{TRUE}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{summarize-data}{%
+\subsection{Summarize data}\label{summarize-data}}
+
+What percent of tweets contain lupus + fibro, lupus + flare, lupus +
+symptoms - fibro, lupus + flare + symptoms, lupus - flare + symptoms
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{num_flare =}\StringTok{ }\KeywordTok{sum}\NormalTok{(no_orgs}\OperatorTok{$}\NormalTok{contains_flare)}
+\NormalTok{num_fibro =}\StringTok{ }\KeywordTok{sum}\NormalTok{(no_orgs}\OperatorTok{$}\NormalTok{contains_fibro)}
+\NormalTok{num_symptom =}\StringTok{ }\KeywordTok{sum}\NormalTok{(no_orgs}\OperatorTok{$}\NormalTok{contains_symptom)}
+
+\NormalTok{flare_and_symptom =}\StringTok{ }\KeywordTok{sum}\NormalTok{(no_orgs}\OperatorTok{$}\NormalTok{contains_symptom }\OperatorTok{&}\StringTok{ }\NormalTok{no_orgs}\OperatorTok{$}\NormalTok{contains_flare)}
+
+\NormalTok{no_flare_yes_symptom =}\StringTok{ }\KeywordTok{sum}\NormalTok{(no_orgs}\OperatorTok{$}\NormalTok{contains_symptom }\OperatorTok{&}\StringTok{ }\OperatorTok{!}\NormalTok{no_orgs}\OperatorTok{$}\NormalTok{contains_flare)}
+
+\NormalTok{num_flare}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 17
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{num_fibro}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 24
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{num_symptom}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 14
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{flare_and_symptom}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{no_flare_yes_symptom}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 14
+\end{verbatim}
+
+So only 17 tweets in my data frame contain the word ``flare'' and only
+19 contain ``symptom''? That's not very helpful - unless my dataframe is
+somehow very tiny? I should have checked the dimensions immediately.
+It's never too late!
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{dim}\NormalTok{(og_df)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1186   90
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{dim}\NormalTok{(no_orgs)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 522   8
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{100} \OperatorTok{-}\StringTok{ }\KeywordTok{dim}\NormalTok{(no_orgs)}\OperatorTok{/}\KeywordTok{dim}\NormalTok{(og_df) }\OperatorTok{*}\StringTok{ }\DecValTok{100}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 55.98651 91.11111
+\end{verbatim}
+
+So almost 60\% of my lupus-related tweets contained hyperlinks in them.
+
+\textbf{Interesting Note:} Over half of the sampled lupus-related tweets
+were from organizations, not individuals
+
+That's not very encouraging as far as my original question, but it does
+make sense. I collected a sampling of tweets based only on whether they
+contained \#lupus. And twitter contains constant conversations of every
+imaginable type. I should be expecting a small proportion of the
+original dataset to contain tweets about symptoms.
+
+Collecting a larger data set over time will increase the number of
+tweets pertinent to my question, but I'm going to keep exploring to set
+up a reusably analysis.
+
+\hypertarget{examine-hashtags-in-tweet-collection}{%
+\subsection{Examine hashtags in tweet
+collection}\label{examine-hashtags-in-tweet-collection}}
+
+My next step is to collect all the hashtags in the dataset and rank them
+by frequency, creating a dataframe of tags.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#create a vector from every element in the hashtags column of no_orgs}
+\NormalTok{all_tags <-}\StringTok{ }\KeywordTok{c}\NormalTok{(no_orgs}\OperatorTok{$}\NormalTok{hashtags, }\DataTypeTok{recursive =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{all_tags <-}\StringTok{ }\KeywordTok{tolower}\NormalTok{(all_tags)}
+
+\CommentTok{#creates a vector of length all_tags with FALSE at }
+\CommentTok{#indices of first occurrence of a tag, TRUE else}
+\NormalTok{dups_index <-}\StringTok{ }\KeywordTok{duplicated}\NormalTok{(all_tags)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#create a dataframe holding each tag in column 1, number}
+\CommentTok{#of times that tag occurs in twitter data in column 2}
+\NormalTok{tag_freq_df <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(}\KeywordTok{table}\NormalTok{(all_tags))}
+\NormalTok{popular_tag_freq_df <-}\StringTok{ }\NormalTok{tag_freq_df[tag_freq_df}\OperatorTok{$}\NormalTok{Freq }\OperatorTok{>}\StringTok{ }\DecValTok{1}\NormalTok{, ]}
+
+\CommentTok{#sort by tag frequency}
+\NormalTok{popular_tag_freq_df <-}\StringTok{ }\NormalTok{popular_tag_freq_df }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{arrange}\NormalTok{(}\KeywordTok{desc}\NormalTok{(Freq)) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#the first row will be for the most frequent tag - lupus. Remove it.}
+\NormalTok{popular_tag_freq_df <-}\StringTok{ }\NormalTok{popular_tag_freq_df[}\OperatorTok{-}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{),]}
+\KeywordTok{names}\NormalTok{(popular_tag_freq_df)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "all_tags" "Freq"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{dim}\NormalTok{(popular_tag_freq_df)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 165   2
+\end{verbatim}
+
+I now have a data frame containing under 200 individual hashtags (after
+removing \#lupus, of course), and the number of times each occurred.
+
+\#\#Create a graph to show which hashtags are most popular
+
+It's high time for some graphics. When creatting my data frame of
+hashtags, I left out any tag that only occurred once. It will be very
+interesting to see if most of the tags left occur many times, or if the
+reverse is true - many tags occur relatively infrequently.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#visualize the frequencies of tags that occur more than once}
+\KeywordTok{ggplot}\NormalTok{(popular_tag_freq_df, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ all_tags, }\DataTypeTok{y =}\NormalTok{ Freq)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_boxplot}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{LupusSymptomsTwitter_files/figure-latex/unnamed-chunk-11-1.pdf}
+
+That graph is much too dense to read - but is it useless? It does show
+that:
+
+\begin{itemize}
+\tightlist
+\item
+  There are a LOT of tags
+\item
+  Many of these tags occur 10 times or less (in 10 or fewer tweets)
+\item
+  It would be helpful to know exactly how many tweets and how many tags
+  we have now
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#How many rows (each row representing a tweet) are in the processed source dataframe?}
+\KeywordTok{dim}\NormalTok{(no_orgs)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 522   8
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#How many rows (each row representing a hashtag) are in our dataframe?}
+\KeywordTok{dim}\NormalTok{(popular_tag_freq_df)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 165   2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#If a tweet occurs 10 times (in 10 tweets), what percent of collected tweets is it appearing in?}
+\DecValTok{100} \OperatorTok{*}\StringTok{ }\DecValTok{10}\OperatorTok{/}\KeywordTok{dim}\NormalTok{(popular_tag_freq_df)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]   6.060606 500.000000
+\end{verbatim}
+
+Looking at that graph, we have a choice to make about our priorities -
+do we want to see tweets that occur 10 times or more, or tweets that
+occur 20 times or more (a stricter criterion would give us only tags
+that are relatively very popular, but there are so few of those that we
+might lose information)?
+
+Adding horizontal lines at y = 10 and y = 20 to visualize this might
+help.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(popular_tag_freq_df, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ all_tags, }\DataTypeTok{y =}\NormalTok{ Freq)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_boxplot}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_hline}\NormalTok{(}\DataTypeTok{yintercept =} \DecValTok{10}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_hline}\NormalTok{(}\DataTypeTok{yintercept =} \DecValTok{20}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{LupusSymptomsTwitter_files/figure-latex/unnamed-chunk-13-1.pdf}
+
+Removing only tags that occur 20 or more times would show us the most
+popular few, but there's a good chance those could be, by their
+popularity, very generic:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#peeking at the top few tags}
+\KeywordTok{head}\NormalTok{(popular_tag_freq_df)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##         all_tags Freq
+## 2 chronicillness   53
+## 3 lupusawareness   34
+## 4        spoonie   31
+## 5    chronicpain   28
+## 6   fibromyalgia   28
+## 7   lupuswarrior   20
+\end{verbatim}
+
+Yes. \#chronicillness, \#chronicpain, \#lupusawareness, and \#spoonie
+are really only useful as other identifiers in the same way \#lupus is.
+An argument could be made for discarding not only tweets with frequency
+of \textless{}10, but also discarding those with frequency of
+\textgreater{}20 for their over-generalizations.
+
+However, \#fibromyalgia and \#antiphosphlipidsyndrome are autoimmune
+diseases and may connect us to interesting tweets for questions of
+dual-diagnosis or mistaken-diagnosis issues. Since this project is to
+explore the nature of tweets containing \#lupus, it wouldn't be wise to
+prune away possibly useful data.
+
+Once again, the high variability in the specific subject/purpose of
+tweets on lupus means that repeating this analysis with a much bigger
+dataset would be very interesting.
+
+Let's go back to the tag dataframe and remove any with a frequency lower
+than 10.
+
+\hypertarget{final-tag-selection}{%
+\subsection{Final tag selection}\label{final-tag-selection}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{final_tag_freq_df <-}\StringTok{ }\NormalTok{popular_tag_freq_df[popular_tag_freq_df}\OperatorTok{$}\NormalTok{Freq }\OperatorTok{>=}\StringTok{ }\DecValTok{10}\NormalTok{, ]}
+\KeywordTok{dim}\NormalTok{(final_tag_freq_df)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 22  2
+\end{verbatim}
+
+Our final data set contains only 30 tags. That's small enough to list
+right here:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{final_tag_freq_df}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                 all_tags Freq
+## 2         chronicillness   53
+## 3         lupusawareness   34
+## 4                spoonie   31
+## 5            chronicpain   28
+## 6           fibromyalgia   28
+## 7           lupuswarrior   20
+## 8    rheumatoidarthritis   19
+## 9                    sle   17
+## 10     autoimmunedisease   16
+## 11            autoimmune   13
+## 12               anxiety   12
+## 13 mentalhealthawareness   12
+## 14               educate   11
+## 15         endometriosis   11
+## 16              migraine   11
+## 17     multiplesclerosis   11
+## 18                cancer   10
+## 19                celiac   10
+## 20               disease   10
+## 21                   eds   10
+## 22           lymedisease   10
+## 23                  pots   10
+\end{verbatim}
+
+\hypertarget{conclusion}{%
+\subsection{Conclusion}\label{conclusion}}
+
+Examining these tags reveals some general patterns in the subject of the
+connected tweets, but shows very few possible symptoms, much less
+unusual symptoms. The final tag in this set, narcolepsy, is perhaps the
+most interesting one. By going back to the tweet dataframe and selecting
+only tweets using \#narcolepsy, I could read those tweets (there are
+only ten, after all) and see if narcolepsy is being reported as a
+lupus-related disorder.
+
+\hypertarget{discussion}{%
+\subsection{Discussion}\label{discussion}}
+
+It's not surprising to discover that the wide variety in reasons people
+tweet about lupus has made it difficult to find information on a very
+specific question by scraping Twitter. However, beginning again with
+rtweet's features for collecting tweets over time and building a much,
+much larger dataset that way could, theoretically, help me. Current
+computing resources don't allow this, but I do look forward to returning
+to this data collection and analysis file.
+
+
+\end{document}
