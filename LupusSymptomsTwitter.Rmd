@@ -39,6 +39,7 @@ library(stringr)
 library(dplyr)
 ```
 
+
 ##Collect data from twitter
 
 To download a data frame of tweets including "lupus" as a hashtag requires a few minutes work with rtweet. Because of twitter's terms of use, I won't be including the actual tweets I collected, but will be able to share the resulting statistical information.
@@ -193,11 +194,11 @@ dim(no_orgs)
 dim(popular_tag_freq_df)
 
 #If a tweet occurs 10 times (in 10 tweets), what percent of collected tweets is it appearing in?
-100 * 10/dim(popular_tag_freq_df)
+100 * 10/dim(no_orgs)
 
 ```
 
-Looking at that graph, we have a choice to make about our priorities - do we want to see tweets that occur 10 times or more, or tweets that occur 20 times or more (a stricter criterion would give us only tags that are relatively very popular, but there are so few of those that we might lose information)?
+Answer: not many at all. Looking again at that graph, we have a choice to make about our priorities - do we want to see tweets that occur 10 times or more, or tweets that occur 20 times or more (a stricter criterion would give us only tags that are relatively very popular, but there are so few of those that we might lose information)?
 
 Adding horizontal lines at y = 10 and y = 20 to visualize this might help.
 
@@ -230,7 +231,7 @@ final_tag_freq_df <- popular_tag_freq_df[popular_tag_freq_df$Freq >= 10, ]
 dim(final_tag_freq_df)
 ```
 
-Our final data set contains only 30 tags. That's small enough to list right here:
+Our final data set contains only about 30 tags. That's small enough to list right here:
 ```{r}
 final_tag_freq_df
 ```
